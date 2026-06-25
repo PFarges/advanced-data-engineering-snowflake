@@ -19,10 +19,10 @@ jobs:
 
     env:
       # Read connection secret
-      SNOWFLAKE_CONNECTIONS_TRIAL_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-      SNOWFLAKE_CONNECTIONS_TRIAL_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-      SNOWFLAKE_CONNECTIONS_TRIAL_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-
+      SNOWFLAKE_CONNECTIONS_ADVANCED_DATA_ENGINEERING_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_CONNECTIONS_ADVANCED_DATA_ENGINEERING_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_CONNECTIONS_ADVANCED_DATA_ENGINEERING_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      
     steps:
       # Checkout step is necessary to access repository files
       - name: Checkout repository
@@ -54,7 +54,7 @@ jobs:
 
       # Fetch latest changes from the repository to Snowflake
       - name: Fetch latest changes to Snowflake
-        run: snow git fetch course_repo.public.advanced_data_engineering_snowflake --connection TRIAL
+        run: snow git fetch course_repo.public.advanced_data_engineering_snowflake
 
       # Deploy templates to the data environment -
       - name: Deploy templates to data environment
@@ -63,6 +63,5 @@ jobs:
           echo "Using branch: ${GITHUB_REF_NAME}"
           snow git execute @advanced_data_engineering_snowflake/branches/${github_ref_name}/module-1/hamburg_weather/pipeline/data/ \
           -D "env='${{ env.DEPLOY_ENV }}'" \
-          --connection TRIAL \
           --database=COURSE_REPO \
           --schema=PUBLIC
